@@ -10,7 +10,7 @@ let expo = {
                 namespace, 
                 options, 
                 store, 
-                $socket:io.connect(host+namespace, options), 
+                socket:(other.io || io).connect(host+namespace, options), 
                 ...other
             }
 
@@ -18,7 +18,7 @@ let expo = {
                 obj[e] = expo[e].bind(o);
             }
             if(!obj.socket){
-                obj.socket = o.$socket
+                obj.socket = o.socket
             }
             return obj;
         }, {})
@@ -32,12 +32,12 @@ let expo = {
             name = name.name;
         }
         
-        if(Object.keys(this.$socket.io._callbacks).find(e=> e=='$'+name)){
-            this.$socket.removeListener(name);
+        if(Object.keys(this.socket.io._callbacks).find(e=> e=='$'+name)){
+            this.socket.removeListener(name);
         }
 
        
-        this.$socket.on(name, (data, control={}) => {
+        this.socket.on(name, (data, control={}) => {
             
             let key = control.key||_key;
             let remove = control.remove||_remove;
@@ -68,7 +68,7 @@ let expo = {
         }
         
         return new Promise((resolve, reject)=>{
-            this.$socket.emit(name, obj, (data, err)=>{
+            this.socket.emit(name, obj, (data, err)=>{
                 if(!err){
                     let returning = {
                         type:'emit',
@@ -82,6 +82,7 @@ let expo = {
                     this?.onSuccess?.(returning);
                     resolve(returning);
                 }else{
+                    this?.onError?.(err);
                     reject(err)
                 }
             })

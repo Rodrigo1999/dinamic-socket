@@ -13,12 +13,13 @@ let expo = {
         if(model && store){
             let models = (model||'').split(',').map(e => e.trim());
             key = (key||'').split(',').map(e => e.trim());
+            let _remove = (remove||'').split(',').map(e => e.trim());
 
             _dispatch = models.reduce((obj, model, i)=>{
 
                 let method = 'post';
 
-                if(key[i]) method = remove ? 'delete' : 'put';
+                if(key[i]) method = _remove[i] ? 'delete' : 'put';
                 if(overwrite) method = 'get';
 
                 obj[model] = dispatch({
