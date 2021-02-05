@@ -43,7 +43,7 @@ var expo = {
         namespace: namespace,
         options: options,
         store: store,
-        $socket: _socket["default"].connect(host + namespace, options)
+        socket: (other.io || _socket["default"]).connect(host + namespace, options)
       }, other);
 
       if (typeof expo[e] == 'function') {
@@ -51,7 +51,7 @@ var expo = {
       }
 
       if (!obj.socket) {
-        obj.socket = o.$socket;
+        obj.socket = o.socket;
       }
 
       return obj;
@@ -72,13 +72,13 @@ var expo = {
       name = name.name;
     }
 
-    if (Object.keys(this.$socket.io._callbacks).find(function (e) {
+    if (Object.keys(this.socket.io._callbacks).find(function (e) {
       return e == '$' + name;
     })) {
-      this.$socket.removeListener(name);
+      this.socket.removeListener(name);
     }
 
-    this.$socket.on(name, function (data) {
+    this.socket.on(name, function (data) {
       var _this$onSuccess, _callback;
 
       var control = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -110,7 +110,7 @@ var expo = {
     }
 
     return new Promise(function (resolve, reject) {
-      _this2.$socket.emit(name, obj, function (data, err) {
+      _this2.socket.emit(name, obj, function (data, err) {
         if (!err) {
           var _this2$onSuccess;
 
@@ -125,6 +125,9 @@ var expo = {
           _this2 === null || _this2 === void 0 ? void 0 : (_this2$onSuccess = _this2.onSuccess) === null || _this2$onSuccess === void 0 ? void 0 : _this2$onSuccess.call(_this2, returning);
           resolve(returning);
         } else {
+          var _this2$onError;
+
+          _this2 === null || _this2 === void 0 ? void 0 : (_this2$onError = _this2.onError) === null || _this2$onError === void 0 ? void 0 : _this2$onError.call(_this2, err);
           reject(err);
         }
       });

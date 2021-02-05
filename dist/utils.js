@@ -27,9 +27,14 @@ var expo = {
       key = (key || '').split(',').map(function (e) {
         return e.trim();
       });
+
+      var _remove = (remove || '').split(',').map(function (e) {
+        return e.trim();
+      });
+
       _dispatch = models.reduce(function (obj, model, i) {
         var method = 'post';
-        if (key[i]) method = remove ? 'delete' : 'put';
+        if (key[i]) method = _remove[i] ? 'delete' : 'put';
         if (overwrite) method = 'get';
         obj[model] = (0, _dispatch2["default"])({
           method: method,
