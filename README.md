@@ -1,1 +1,1 @@
-## Em breve teremos documentações
+## Em breve teremos documentação
