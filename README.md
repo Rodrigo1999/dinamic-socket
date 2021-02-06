@@ -204,10 +204,6 @@ Agora vamos trabalhar o index.js
             glob.sync(path.join(__dirname, "controller", 'private', '*.js')).forEach(e=>{
                 require(e)(io, socket);
             });
-
-            glob.sync(path.join(__dirname, "controller", 'global', '*.js')).forEach(e=>{
-                require(e)(io, socket);
-            });
         });
 
         // ------------------------------------------socket público-----------------------------------------------------------------------
@@ -216,6 +212,10 @@ Agora vamos trabalhar o index.js
             glob.sync(path.join(__dirname, "controller", 'public', '*.js')).forEach(e=>{
                 require(e)(io, socket);
             });
+        });
+
+        // ------------------------------------------socket global-----------------------------------------------------------------------
+        io.of('/').on('connection', (socket) => {
 
             glob.sync(path.join(__dirname, "controller", 'global', '*.js')).forEach(e=>{
                 require(e)(io, socket);
@@ -231,7 +231,7 @@ Essa é só uma ilustração, você pode separar as camadas em controller, servi
 ```js
     // controller/private/teste.js
     module.exports = (io, socket)=>{
-        socket.on('scheduling', async (data, callback)=>{
+        socket.on('endpoint-test', async (data, callback)=>{
             /* 
                 Quando for usar callback passe assim callback(<data>, <error>);
                 O primeiro parâmetro é os dados que você quer emitir e o segundo é erro se ouver.
@@ -245,7 +245,7 @@ Essa é só uma ilustração, você pode separar as camadas em controller, servi
 
 # Casos de uso
 
-Mais uma vez atento a olhar a doc do dinamicfetch para entender o metodologia por trás do dinamic-socket.
+Mais uma vez atento olhar a doc do dinamicfetch para entender o metodologia por trás do dinamic-socket.
 Os retorno de dados do servidor para client funciona de maneira semelhante ao pacote mencionado, a diferença é que eu incluo um control em certos casos. Por exemplo:
 
 ```js
