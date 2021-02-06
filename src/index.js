@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from 'react';
 import io from 'socket.io-client';
 import {simplesDispatch} from './utils';
 
@@ -23,7 +24,7 @@ let expo = {
             return obj;
         }, {})
     },
-    on(name, model, _key, _remove, callback=()=>null){
+    on(name, model, _key, _remove, callback=()=>null, $callback=()=>null){
         if(typeof name != 'string'){
             model = name.model;
             _key = name.key;
@@ -32,13 +33,17 @@ let expo = {
             name = name.name;
         }
         
-        if(Object.keys(this.socket.io._callbacks).find(e=> e=='$'+name)){
-            this.socket.removeListener(name);
+        if([true, undefined].includes(this?.removeListener)){
+            if(Object.keys(this.socket?._callbacks||{}).find(e=> e=='$'+name)){
+                this.socket.removeListener(name);
+            }
         }
 
-       
-        this.socket.on(name, (data, control={}) => {
-            
+        let {host, namespace, options, store} = this;
+
+        let _this = this;
+
+        function listen(data, control={}) {
             let key = control.key||_key;
             let remove = control.remove||_remove;
             let overwrite = control.overwrite;
@@ -46,16 +51,44 @@ let expo = {
             let returning = {
                 type:'on',
                 data,
-                host:this.host,
-                namespace:this.namespace,
-                options:this.options,
-                dispatch:simplesDispatch(model, key, remove, data, overwrite, this?.store)
+                host,
+                namespace,
+                options,
+                dispatch:simplesDispatch(model, key, remove, data, overwrite, store)
             }
 
             
-            this?.onSuccess?.(returning);
+            _this?.onSuccess?.(returning);
             callback?.(returning);
+            $callback?.(returning);
+        }
+        this.socket.on(name, listen);
+        return { 
+            removeListener: () => this.socket.removeListener(name, listen),
+            socket:this.socket
+        }
+    },
+    $on(name, model, _key, _remove){
+        
+        let [data, setData] = useState({
+            type:'',
+            data:null,
+            host:this.host,
+            namespace:this.namespace,
+            options:this.options,
+            dispatch:{},
+            removeListener(){}
         });
+
+        useEffect(()=>{
+            
+            let socket = expo.on.call(this, name, model, _key, _remove, null, (data)=>{
+                setData(_data => ({..._data, ...data}));
+            });
+            setData(data => ({...data, ...socket}))
+        },[]);
+
+        return data;
     },
     emit(name, obj, model, key, remove, overwrite){
         if(typeof name != 'string'){

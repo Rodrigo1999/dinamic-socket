@@ -7,7 +7,7 @@
 ## O que é o dinamic-socket ?
 Muitas vezes fazemos nossas chamadas websocket na mão. Tendo em vista isso, é meio cansativo configurar como os dados devem ser manipulados.
 
-É aí que entra o dinamic-socket, buscador dinâmico para socket.io, inspirado no dinamicfetch, com ele você pode deixar mais fluido seu trabalho de salvar dados em loja, configurar ouvinte e emissão de eventos.
+É aí que entra o dinamic-socket, buscador dinâmico para socket.io, inspirado no dinamicfetch, com ele você pode deixar mais fluido seu trabalho de salvar dados em loja, configurar ouvinte e emissão de eventos. Utilizando ganchos personalisados e outras formas.
 
 ## Que metodologia ele trás?
 Para você entender a metodologia dele, sugiro ler esse mesmo tópico no pacote **[dinamicfetch](https://www.npmjs.com/package/dinamicfetch)**
@@ -27,6 +27,7 @@ Tendo em vista a metodologia, partiremos para o uso.
         namespace:'/seu_namespace', //opcional, ficará assim https://host:port/seu_namespace
         options:{}, //opcional, opções do io.connect(<host>, <options>)
         io:require('socket.io-client'), //opcional, caso eu queira passar uma outra versão do socket.io externamente, pois nesse pacote estou utilizando a v3.1.1
+        removeListener:true, // Padrão true, se verdadeiro, o dinamic-socket removerá ouvintes repetidos automaticamente, é útil se você não quer duplicar eventos
         onSuccess(data){
             /*
                 data retorna:
@@ -68,7 +69,7 @@ Tendo em vista a metodologia, partiremos para o uso.
 ```js
     import socket, {on} from 'socket.config.js';
 
-    on('<name>', '<model>', '<key>', '<remove>', '<callback>');
+    let listen = on('<name>', '<model>', '<key>', '<remove>', '<callback>');
 
     /*
         name -> simplesmente é o endpoint da chamada.
@@ -76,6 +77,16 @@ Tendo em vista a metodologia, partiremos para o uso.
         key -> se passado indico que quero alterar o determinado model da store com base nos dados que estou enviando do servidor.
         remove -> se passado em conjunto com a key, indica que quero remover um determinado item da store com base na key.
         callback -> retorna todos os dados visto em create->onSuccess
+    */
+
+    /*
+        liten retorna:
+
+        {
+            removeListener -> uma função responsável por remover o ouvinte, se removeListener estiver como false no método create, utilizar esse retorno quando for desmontar um componente
+
+            socket -> a instância do socket atual
+        }
     */
 
     //outra forma de usar
@@ -154,6 +165,18 @@ Tendo em vista a metodologia, partiremos para o uso.
 
     //o mesmo vale para emit
 ```
+
+> uso como hookie
+```js
+    import socket, {$on} from 'socket.config.js';
+
+    let data = $on('<name>', '<model>', '<key>', '<remove>', '<callback>');
+
+    /* 
+        data retorna todos os dados vistos em create->onSuccess
+    */
+```
+
 
 ## Estruturando o lado do servidor
 ### O que vou mostrar abaixo não é obrigatório para você usar o dinamic-socket (exceto um detalhe que há lá em baixo) mas sim uma sugestão de como você pode arquitetar seu socket.io no lado do servidor.
