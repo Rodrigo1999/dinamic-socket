@@ -159,21 +159,22 @@ Tendo em vista a metodologia, partiremos para o uso.
         host, 
         namespace, 
         options, 
-        store, 
-        socket:io.connect(host+namespace, options),
+        store
     })('<name>', '<model>', '<key>', '<remove>', '<callback>');
 
     //o mesmo vale para emit
 ```
 
-> uso como hookie
+<hr/>
+
+> usos como hook
 ```js
     import socket, {$on} from 'socket.config.js';
 
     let data = $on('<name>', '<model>', '<key>', '<remove>', '<callback>');
 
     /* 
-        data retorna todos os dados vistos em create->onSuccess
+        data retorna todos os dados vistos em create->onSuccess mais removeListener e socket
     */
 ```
 

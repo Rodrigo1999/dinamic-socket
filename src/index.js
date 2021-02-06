@@ -25,6 +25,9 @@ let expo = {
         }, {})
     },
     on(name, model, _key, _remove, callback=()=>null, $callback=()=>null){
+        if(!this.socket){
+            this.socket = (this.io || io).connect(this.host+(this.namespace || ''), this.options);
+        }
         if(typeof name != 'string'){
             model = name.model;
             _key = name.key;

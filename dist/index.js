@@ -87,6 +87,10 @@ var expo = {
       return null;
     };
 
+    if (!this.socket) {
+      this.socket = (this.io || _socket["default"]).connect(this.host + (this.namespace || ''), this.options);
+    }
+
     if (typeof name != 'string') {
       model = name.model;
       _key = name.key;
