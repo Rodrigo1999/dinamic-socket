@@ -24,7 +24,7 @@ let expo = {
             return obj;
         }, {})
     },
-    on(name, model, _key, _remove, callback=()=>null, $callback=()=>null){
+    on(name, model, _key, _remove, callback=()=>null, $callback){
         if(!this.socket){
             this.socket = (this.io || io).connect(this.host+(this.namespace || ''), this.options);
         }
@@ -36,7 +36,7 @@ let expo = {
             name = name.name;
         }
         
-        if([true, undefined].includes(this?.removeListener)){
+        if([true, undefined].includes(this?.removeListener) || $callback!=undefined){
             if(Object.keys(this.socket?._callbacks||{}).find(e=> e=='$'+name)){
                 this.socket.removeListener(name);
             }

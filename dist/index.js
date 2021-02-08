@@ -83,9 +83,7 @@ var expo = {
     var callback = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : function () {
       return null;
     };
-    var $callback = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : function () {
-      return null;
-    };
+    var $callback = arguments.length > 5 ? arguments[5] : undefined;
 
     if (!this.socket) {
       this.socket = (this.io || _socket["default"]).connect(this.host + (this.namespace || ''), this.options);
@@ -99,7 +97,7 @@ var expo = {
       name = name.name;
     }
 
-    if ([true, undefined].includes(this === null || this === void 0 ? void 0 : this.removeListener)) {
+    if ([true, undefined].includes(this === null || this === void 0 ? void 0 : this.removeListener) || $callback != undefined) {
       var _this$socket;
 
       if (Object.keys(((_this$socket = this.socket) === null || _this$socket === void 0 ? void 0 : _this$socket._callbacks) || {}).find(function (e) {
