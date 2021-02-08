@@ -7,7 +7,7 @@
 ## O que é o dinamic-socket ?
 Muitas vezes fazemos nossas chamadas websocket na mão. Tendo em vista isso, é meio cansativo configurar como os dados devem ser manipulados.
 
-É aí que entra o dinamic-socket, buscador dinâmico para socket.io, inspirado no dinamicfetch, com ele você pode deixar mais fluido seu trabalho de salvar dados em loja, configurar ouvinte e emissão de eventos. Utilizando ganchos personalisados e outras formas.
+É aí que entra o dinamic-socket, buscador dinâmico para socket.io, inspirado no dinamicfetch, com ele você pode deixar mais fluido seu trabalho de salvar dados em loja, configurar ouvinte e emissão de eventos. Utilizando ganchos personalizados e outras formas.
 
 ## Que metodologia ele trás?
 Para você entender a metodologia dele, sugiro ler esse mesmo tópico no pacote **[dinamicfetch](https://www.npmjs.com/package/dinamicfetch)**
