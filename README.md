@@ -39,13 +39,16 @@ Tendo em vista a metodologia, partiremos para o uso.
                     <namespace> -> namespace usado.
                     <options> -> opções usadas no socket.io no método connect
                     <dispatch> -> dados despachados.
+                    <name>
+                    <key>
+                    <remove>
                 }
             */
         },
         onError(err){
             /*
                 usado apenas para emit
-                retorna um erro personalisado se ouver
+                retorna um erro personalisado se houver
             */
         }
     });
@@ -56,6 +59,7 @@ Tendo em vista a metodologia, partiremos para o uso.
         {
             <create>, // o método create.
             <on>, //ouvinte de evento personalisado do dinamic-socket.
+            <$on>, //gancho de evento personalisado do dinamic-socket.
             <emit> // emissor de evento personalisado do dinamic-socket.
             <socket> //instância do socket.
         }
