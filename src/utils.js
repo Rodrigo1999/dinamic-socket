@@ -7,13 +7,13 @@ let expo = {
             return data;
         }
     },
-    simplesDispatch(model, key, remove, data, overwrite, store){
+    simplesDispatch(model, key, remove=[], data, overwrite, store){
         let _dispatch = {};
 
         if(model && store){
             let models = (model||'').split(',').map(e => e.trim());
             key = (key||'').split(',').map(e => e.trim());
-            let _remove = (remove||'').split(',').map(e => e.trim());
+            let _remove = [].concat(remove);
 
             _dispatch = models.reduce((obj, model, i)=>{
 
