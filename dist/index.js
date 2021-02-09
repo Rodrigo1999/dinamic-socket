@@ -127,6 +127,10 @@ var expo = {
         host: host,
         namespace: namespace,
         options: options,
+        name: name,
+        model: model,
+        key: _key,
+        remove: _remove,
         dispatch: (0, _utils.simplesDispatch)(model, key, remove, data, overwrite, store)
       };
       _this === null || _this === void 0 ? void 0 : (_this$onSuccess = _this.onSuccess) === null || _this$onSuccess === void 0 ? void 0 : _this$onSuccess.call(_this, returning);
@@ -152,6 +156,10 @@ var expo = {
       namespace: this.namespace,
       options: this.options,
       dispatch: {},
+      name: name,
+      model: model,
+      key: _key,
+      remove: _remove,
       removeListener: function removeListener() {}
     }),
         _useState2 = _slicedToArray(_useState, 2),
@@ -193,6 +201,10 @@ var expo = {
             host: _this4.host,
             namespace: _this4.namespace,
             options: _this4.options,
+            name: name,
+            model: model,
+            key: key,
+            remove: remove,
             dispatch: (0, _utils.simplesDispatch)(model, key, remove, data, overwrite, _this4 === null || _this4 === void 0 ? void 0 : _this4.store)
           };
           _this4 === null || _this4 === void 0 ? void 0 : (_this4$onSuccess = _this4.onSuccess) === null || _this4$onSuccess === void 0 ? void 0 : _this4$onSuccess.call(_this4, returning);

@@ -57,6 +57,10 @@ let expo = {
                 host,
                 namespace,
                 options,
+                name,
+                model, 
+                key:_key, 
+                remove:_remove,
                 dispatch:simplesDispatch(model, key, remove, data, overwrite, store)
             }
 
@@ -80,6 +84,10 @@ let expo = {
             namespace:this.namespace,
             options:this.options,
             dispatch:{},
+            name,
+            model, 
+            key:_key, 
+            remove:_remove,
             removeListener(){}
         });
 
@@ -112,6 +120,10 @@ let expo = {
                         host:this.host,
                         namespace:this.namespace,
                         options:this.options,
+                        name,
+                        model, 
+                        key, 
+                        remove,
                         dispatch:simplesDispatch(model, key, remove, data, overwrite, this?.store)
                     }
         

@@ -17,7 +17,11 @@ var expo = {
       return data;
     }
   },
-  simplesDispatch: function simplesDispatch(model, key, remove, data, overwrite, store) {
+  simplesDispatch: function simplesDispatch(model, key) {
+    var remove = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+    var data = arguments.length > 3 ? arguments[3] : undefined;
+    var overwrite = arguments.length > 4 ? arguments[4] : undefined;
+    var store = arguments.length > 5 ? arguments[5] : undefined;
     var _dispatch = {};
 
     if (model && store) {
@@ -28,9 +32,7 @@ var expo = {
         return e.trim();
       });
 
-      var _remove = (remove || '').split(',').map(function (e) {
-        return e.trim();
-      });
+      var _remove = [].concat(remove);
 
       _dispatch = models.reduce(function (obj, model, i) {
         var method = 'post';

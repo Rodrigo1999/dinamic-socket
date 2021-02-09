@@ -1,6 +1,6 @@
 {
   "name": "dinamic-socket",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Buscador dinâmico para socket.io, inspirado no dinamicfetch, com ele você pode deixar mais fluido seu trabalho de salvar dados em loja, configurar ouvinte e emissão de eventos",
   "main": "./dist/index.js",
   "scripts": {
