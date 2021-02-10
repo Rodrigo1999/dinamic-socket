@@ -39,8 +39,8 @@ Tendo em vista a metodologia, partiremos para o uso.
                     <namespace> -> namespace usado.
                     <options> -> opções usadas no socket.io no método connect
                     <dispatch> -> dados despachados.
-                    <name>
-                    <key>
+                    <name> -> endpoint usado por essa solicitação
+                    <key> -> key usada por essa solicitação
                     <remove>
                 }
             */
@@ -79,7 +79,7 @@ Tendo em vista a metodologia, partiremos para o uso.
         name -> simplesmente é o endpoint da chamada.
         model -> é o model a ser utilizado da store para tratamento de dados. Obs: ver os casos de uso de dinamicfetch pra entender melhor.
         key -> se passado indico que quero alterar o determinado model da store com base nos dados que estou enviando do servidor.
-        remove -> se passado em conjunto com a key, indica que quero remover um determinado item da store com base na key.
+        remove -> se passado em conjunto com a key, indica que quero remover um determinado item da store com base na key. Ele é um booleano, pode ser como true/false ou um array caso eu use múltiplos model [true/false, false/true]
         callback -> retorna todos os dados visto em create->onSuccess
     */
 
@@ -178,7 +178,7 @@ Tendo em vista a metodologia, partiremos para o uso.
     let data = $on('<name>', '<model>', '<key>', '<remove>', '<callback>');
 
     /* 
-        data retorna todos os dados vistos em create->onSuccess mais removeListener e socket
+        data retorna todos os dados vistos em create->onSuccess + removeListener e socket
     */
 ```
 
