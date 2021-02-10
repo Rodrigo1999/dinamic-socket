@@ -111,9 +111,9 @@ let expo = {
 
         return data;
     },
-    emit(name, obj, model, key, remove, overwrite){
+    emit(name, obj, model, key, remove, overwrite, configs){
 
-        let {host, namespace, options} = this;
+        let {host, namespace, options, socket} = this;
 
         if(typeof name != 'string'){
             model = name.model;
@@ -123,41 +123,36 @@ let expo = {
             overwrite = name.overwrite;
             name = name.name;
         }
-        
-        this?.onStart?.({
+        let cb = {
             host, 
             namespace, 
             options,
             type:'emit',
-            socket:this.socket,
+            socket,
             name,
             model,
             key,
             remove,
             overwrite,
             body:obj
-        });
+        }
+
+        this?.onStart?.(cb);
         return new Promise((resolve, reject)=>{
             this.socket.emit(name, obj, (data, err)=>{
                 if(!err){
                     let returning = {
-                        type:'emit',
+                        ...cb,
                         data,
-                        host:this.host,
-                        namespace:this.namespace,
-                        options:this.options,
-                        name,
-                        model, 
-                        key, 
-                        remove,
+                        socket:this.socket,
                         dispatch:simplesDispatch(model, key, remove, data, overwrite, this?.store)
                     }
         
                     this?.onSuccess?.(returning);
                     resolve(returning);
                 }else{
-                    this?.onError?.(err);
-                    reject(err)
+                    this?.onError?.({...cb, err});
+                    reject({...cb, err})
                 }
             })
         })

@@ -188,13 +188,14 @@ var expo = {
     }, []);
     return data;
   },
-  emit: function emit(name, obj, model, key, remove, overwrite) {
+  emit: function emit(name, obj, model, key, remove, overwrite, configs) {
     var _this$onStart2,
         _this4 = this;
 
     var host = this.host,
         namespace = this.namespace,
-        options = this.options;
+        options = this.options,
+        socket = this.socket;
 
     if (typeof name != 'string') {
       model = name.model;
@@ -205,43 +206,42 @@ var expo = {
       name = name.name;
     }
 
-    this === null || this === void 0 ? void 0 : (_this$onStart2 = this.onStart) === null || _this$onStart2 === void 0 ? void 0 : _this$onStart2.call(this, {
+    var cb = {
       host: host,
       namespace: namespace,
       options: options,
       type: 'emit',
-      socket: this.socket,
+      socket: socket,
       name: name,
       model: model,
       key: key,
       remove: remove,
       overwrite: overwrite,
       body: obj
-    });
+    };
+    this === null || this === void 0 ? void 0 : (_this$onStart2 = this.onStart) === null || _this$onStart2 === void 0 ? void 0 : _this$onStart2.call(this, cb);
     return new Promise(function (resolve, reject) {
       _this4.socket.emit(name, obj, function (data, err) {
         if (!err) {
           var _this4$onSuccess;
 
-          var returning = {
-            type: 'emit',
+          var returning = _objectSpread(_objectSpread({}, cb), {}, {
             data: data,
-            host: _this4.host,
-            namespace: _this4.namespace,
-            options: _this4.options,
-            name: name,
-            model: model,
-            key: key,
-            remove: remove,
+            socket: _this4.socket,
             dispatch: (0, _utils.simplesDispatch)(model, key, remove, data, overwrite, _this4 === null || _this4 === void 0 ? void 0 : _this4.store)
-          };
+          });
+
           _this4 === null || _this4 === void 0 ? void 0 : (_this4$onSuccess = _this4.onSuccess) === null || _this4$onSuccess === void 0 ? void 0 : _this4$onSuccess.call(_this4, returning);
           resolve(returning);
         } else {
           var _this4$onError;
 
-          _this4 === null || _this4 === void 0 ? void 0 : (_this4$onError = _this4.onError) === null || _this4$onError === void 0 ? void 0 : _this4$onError.call(_this4, err);
-          reject(err);
+          _this4 === null || _this4 === void 0 ? void 0 : (_this4$onError = _this4.onError) === null || _this4$onError === void 0 ? void 0 : _this4$onError.call(_this4, _objectSpread(_objectSpread({}, cb), {}, {
+            err: err
+          }));
+          reject(_objectSpread(_objectSpread({}, cb), {}, {
+            err: err
+          }));
         }
       });
     });
