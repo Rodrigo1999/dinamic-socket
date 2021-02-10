@@ -78,16 +78,13 @@ var expo = {
     }, {});
   },
   on: function on(name, model, _key, _remove) {
-    var _this2 = this;
+    var _this$onStart,
+        _this2 = this;
 
     var callback = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : function () {
       return null;
     };
     var $callback = arguments.length > 5 ? arguments[5] : undefined;
-
-    if (!this.socket) {
-      this.socket = (this.io || _socket["default"]).connect(this.host + (this.namespace || ''), this.options);
-    }
 
     if (typeof name != 'string') {
       model = name.model;
@@ -113,6 +110,19 @@ var expo = {
         store = this.store;
 
     var _this = this;
+
+    this === null || this === void 0 ? void 0 : (_this$onStart = this.onStart) === null || _this$onStart === void 0 ? void 0 : _this$onStart.call(this, {
+      host: host,
+      namespace: namespace,
+      options: options,
+      isHook: $callback != undefined,
+      type: 'on',
+      socket: this.socket,
+      name: name,
+      model: model,
+      key: _key,
+      remove: _remove
+    });
 
     function listen(data) {
       var _this$onSuccess, _callback;
@@ -179,7 +189,12 @@ var expo = {
     return data;
   },
   emit: function emit(name, obj, model, key, remove, overwrite) {
-    var _this4 = this;
+    var _this$onStart2,
+        _this4 = this;
+
+    var host = this.host,
+        namespace = this.namespace,
+        options = this.options;
 
     if (typeof name != 'string') {
       model = name.model;
@@ -190,6 +205,19 @@ var expo = {
       name = name.name;
     }
 
+    this === null || this === void 0 ? void 0 : (_this$onStart2 = this.onStart) === null || _this$onStart2 === void 0 ? void 0 : _this$onStart2.call(this, {
+      host: host,
+      namespace: namespace,
+      options: options,
+      type: 'emit',
+      socket: this.socket,
+      name: name,
+      model: model,
+      key: key,
+      remove: remove,
+      overwrite: overwrite,
+      body: obj
+    });
     return new Promise(function (resolve, reject) {
       _this4.socket.emit(name, obj, function (data, err) {
         if (!err) {

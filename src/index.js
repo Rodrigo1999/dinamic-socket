@@ -25,9 +25,7 @@ let expo = {
         }, {})
     },
     on(name, model, _key, _remove, callback=()=>null, $callback){
-        if(!this.socket){
-            this.socket = (this.io || io).connect(this.host+(this.namespace || ''), this.options);
-        }
+        
         if(typeof name != 'string'){
             model = name.model;
             _key = name.key;
@@ -46,6 +44,18 @@ let expo = {
 
         let _this = this;
 
+        this?.onStart?.({
+            host, 
+            namespace, 
+            options,
+            isHook:$callback != undefined,
+            type:'on',
+            socket:this.socket,
+            name,
+            model,
+            key:_key,
+            remove:_remove
+        });
         function listen(data, control={}) {
             let key = control.key||_key;
             let remove = control.remove||_remove;
@@ -102,6 +112,9 @@ let expo = {
         return data;
     },
     emit(name, obj, model, key, remove, overwrite){
+
+        let {host, namespace, options} = this;
+
         if(typeof name != 'string'){
             model = name.model;
             obj = name.body;
@@ -111,6 +124,19 @@ let expo = {
             name = name.name;
         }
         
+        this?.onStart?.({
+            host, 
+            namespace, 
+            options,
+            type:'emit',
+            socket:this.socket,
+            name,
+            model,
+            key,
+            remove,
+            overwrite,
+            body:obj
+        });
         return new Promise((resolve, reject)=>{
             this.socket.emit(name, obj, (data, err)=>{
                 if(!err){

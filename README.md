@@ -28,6 +28,41 @@ Tendo em vista a metodologia, partiremos para o uso.
         options:{}, //opcional, opções do io.connect(<host>, <options>)
         io:require('socket.io-client'), //opcional, caso eu queira passar uma outra versão do socket.io externamente, pois nesse pacote estou utilizando a v3.1.1
         removeListener:true, // Padrão true, se verdadeiro, o dinamic-socket removerá ouvintes repetidos automaticamente, é útil se você não quer duplicar eventos
+        onStart(data){
+
+            /*
+                data retorna:
+
+                para data.type do tipo 'on':
+                {
+                    <host> -> host usado.
+                    <namespace> -> namespace usado.
+                    <options> -> opções usadas no socket.io no método connect
+                    <isHook> -> define se o ouvinte é um gancho ou não
+                    <type> -> retorna o tipo de onSuccess, se ele veio de um ouvinte "on" ou se uma emissão "emit".
+                    <socket> -> instância do socket.
+                    <name> -> endpoint usado por essa solicitação
+                    <model> -> model usado na solicitação
+                    <key> -> key usada por essa solicitação
+                    <remove>
+                }
+                para data.type do tipo 'emit':
+                {
+                    <host> ->
+                    <namespace> ->
+                    <options> ->
+                    <type> ->
+                    <socket> ->
+                    <name> ->
+                    <model> ->
+                    <key> ->
+                    <remove> ->
+                    <overwrite> ->
+                    <body>
+                }
+            */
+            
+        },
         onSuccess(data){
             /*
                 data retorna:
@@ -41,6 +76,7 @@ Tendo em vista a metodologia, partiremos para o uso.
                     <dispatch> -> dados despachados.
                     <name> -> endpoint usado por essa solicitação
                     <key> -> key usada por essa solicitação
+                    <model> -> model usado na solicitação
                     <remove>
                 }
             */
@@ -151,22 +187,6 @@ Tendo em vista a metodologia, partiremos para o uso.
         remove:/*remove*/,
         overwrite:/*overwrite*/
     });
-```
-
-<hr/>
-
-> usos sem o create
-```js
-    import {on, emit} from 'dinamic-socket';
-
-    on.bind({
-        host, 
-        namespace, 
-        options, 
-        store
-    })('<name>', '<model>', '<key>', '<remove>', '<callback>');
-
-    //o mesmo vale para emit
 ```
 
 <hr/>
