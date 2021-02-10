@@ -166,7 +166,7 @@ Tendo em vista a metodologia, partiremos para o uso.
 ```js
     import socket, {emit} from 'socket.config.js';
 
-    socket.emit('<name>', '<body>', '<model>', '<key>', '<remove>', '<overwrite>'); //retorna uma promisse
+    socket.emit('<name>', '<body>', '<model>', '<key>', '<remove>', '<overwrite>', '<configs>'); //retorna uma promisse
 
     /*
         name -> simplesmente é o endpoint da chamada.

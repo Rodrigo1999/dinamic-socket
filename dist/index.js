@@ -217,7 +217,8 @@ var expo = {
       key: key,
       remove: remove,
       overwrite: overwrite,
-      body: obj
+      body: obj,
+      configs: configs
     };
     this === null || this === void 0 ? void 0 : (_this$onStart2 = this.onStart) === null || _this$onStart2 === void 0 ? void 0 : _this$onStart2.call(this, cb);
     return new Promise(function (resolve, reject) {

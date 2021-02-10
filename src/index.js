@@ -134,7 +134,8 @@ let expo = {
             key,
             remove,
             overwrite,
-            body:obj
+            body:obj,
+            configs
         }
 
         this?.onStart?.(cb);
