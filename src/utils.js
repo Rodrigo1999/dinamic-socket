@@ -1,4 +1,4 @@
-import dispatch from './dispatch';
+import shaper from './shaper';
 let expo = {
     tryData(data, model){
         try{
@@ -7,22 +7,22 @@ let expo = {
             return data;
         }
     },
-    simplesDispatch(model, key, remove=[], data, overwrite, store){
-        let _dispatch = {};
+    simplesShaper(model, key, remove=[], data, overwrite, store){
+        let _shaper = {};
 
         if(model && store){
             let models = (model||'').split(',').map(e => e.trim());
             key = (key||'').split(',').map(e => e.trim());
             let _remove = [].concat(remove);
 
-            _dispatch = models.reduce((obj, model, i)=>{
+            _shaper = models.reduce((obj, model, i)=>{
 
                 let method = 'post';
 
                 if(key[i]) method = _remove[i] ? 'delete' : 'put';
                 if(overwrite) method = 'get';
 
-                obj[model] = dispatch({
+                obj[model] = shaper({
                     method, 
                     key:key[i], 
                     model, 
@@ -32,10 +32,10 @@ let expo = {
                 return obj;
             }, {});
         }
-        return _dispatch
+        return _shaper
     }
 }
 
-export let simplesDispatch = expo.simplesDispatch;
+export let simplesShaper= expo.simpleShaper;
 export let tryData = expo.tryData;
 export default expo;

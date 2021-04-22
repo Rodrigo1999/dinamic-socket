@@ -141,7 +141,7 @@ var expo = {
         model: model,
         key: _key,
         remove: _remove,
-        dispatch: (0, _utils.simplesDispatch)(model, key, remove, data, overwrite, store)
+        shaper: (0, _utils.simplesShaper)(model, key, remove, data, overwrite, store)
       };
       _this === null || _this === void 0 ? void 0 : (_this$onSuccess = _this.onSuccess) === null || _this$onSuccess === void 0 ? void 0 : _this$onSuccess.call(_this, returning);
       (_callback = callback) === null || _callback === void 0 ? void 0 : _callback(returning);
@@ -165,7 +165,7 @@ var expo = {
       host: this.host,
       namespace: this.namespace,
       options: this.options,
-      dispatch: {},
+      shaper: {},
       name: name,
       model: model,
       key: _key,
@@ -229,7 +229,7 @@ var expo = {
           var returning = _objectSpread(_objectSpread({}, cb), {}, {
             data: data,
             socket: _this4.socket,
-            dispatch: (0, _utils.simplesDispatch)(model, key, remove, data, overwrite, _this4 === null || _this4 === void 0 ? void 0 : _this4.store)
+            shaper: (0, _utils.simplesShaper)(model, key, remove, data, overwrite, _this4 === null || _this4 === void 0 ? void 0 : _this4.store)
           });
 
           _this4 === null || _this4 === void 0 ? void 0 : (_this4$onSuccess = _this4.onSuccess) === null || _this4$onSuccess === void 0 ? void 0 : _this4$onSuccess.call(_this4, returning);

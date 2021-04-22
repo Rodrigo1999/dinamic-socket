@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import io from 'socket.io-client';
-import {simplesDispatch} from './utils';
+import {simplesShaper} from './utils';
 
 let expo = {
     create({host, namespace='', options, store, ...other}){
@@ -71,7 +71,7 @@ let expo = {
                 model, 
                 key:_key, 
                 remove:_remove,
-                dispatch:simplesDispatch(model, key, remove, data, overwrite, store)
+                shaper:simplesShaper(model, key, remove, data, overwrite, store)
             }
 
             
@@ -93,7 +93,7 @@ let expo = {
             host:this.host,
             namespace:this.namespace,
             options:this.options,
-            dispatch:{},
+            shaper:{},
             name,
             model, 
             key:_key, 
@@ -146,7 +146,7 @@ let expo = {
                         ...cb,
                         data,
                         socket:this.socket,
-                        dispatch:simplesDispatch(model, key, remove, data, overwrite, this?.store)
+                        shaper:simplesShaper(model, key, remove, data, overwrite, this?.store)
                     }
         
                     this?.onSuccess?.(returning);

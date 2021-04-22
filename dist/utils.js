@@ -3,9 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.tryData = exports.simplesDispatch = void 0;
+exports["default"] = exports.tryData = exports.simplesShaper = void 0;
 
-var _dispatch2 = _interopRequireDefault(require("./dispatch"));
+var _shaper2 = _interopRequireDefault(require("./shaper"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -17,12 +17,12 @@ var expo = {
       return data;
     }
   },
-  simplesDispatch: function simplesDispatch(model, key) {
+  simplesShaper: function simplesShaper(model, key) {
     var remove = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
     var data = arguments.length > 3 ? arguments[3] : undefined;
     var overwrite = arguments.length > 4 ? arguments[4] : undefined;
     var store = arguments.length > 5 ? arguments[5] : undefined;
-    var _dispatch = {};
+    var _shaper = {};
 
     if (model && store) {
       var models = (model || '').split(',').map(function (e) {
@@ -34,11 +34,11 @@ var expo = {
 
       var _remove = [].concat(remove);
 
-      _dispatch = models.reduce(function (obj, model, i) {
+      _shaper = models.reduce(function (obj, model, i) {
         var method = 'post';
         if (key[i]) method = _remove[i] ? 'delete' : 'put';
         if (overwrite) method = 'get';
-        obj[model] = (0, _dispatch2["default"])({
+        obj[model] = (0, _shaper2["default"])({
           method: method,
           key: key[i],
           model: model,
@@ -49,11 +49,11 @@ var expo = {
       }, {});
     }
 
-    return _dispatch;
+    return _shaper;
   }
 };
-var simplesDispatch = expo.simplesDispatch;
-exports.simplesDispatch = simplesDispatch;
+var simplesShaper = expo.simpleShaper;
+exports.simplesShaper = simplesShaper;
 var tryData = expo.tryData;
 exports.tryData = tryData;
 var _default = expo;

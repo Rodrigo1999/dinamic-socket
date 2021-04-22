@@ -73,7 +73,7 @@ Tendo em vista a metodologia, partiremos para o uso.
                     <host> -> host usado.
                     <namespace> -> namespace usado.
                     <options> -> opções usadas no socket.io no método connect
-                    <dispatch> -> dados despachados.
+                    <shaper> -> dados modelados.
                     <name> -> endpoint usado por essa solicitação
                     <key> -> key usada por essa solicitação
                     <model> -> model usado na solicitação
